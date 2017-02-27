@@ -1,0 +1,80 @@
+/*-----------------
+	Main Content
+------------------*/
+
+.logo {
+  width: 75px;
+  float: left;
+  margin-right: 15px;
+}
+
+.table {
+  margin-top: 25px;
+}
+
+.page-header {
+  border-bottom: 0px solid #2a95eb;
+}
+
+
+.form-group {
+  max-width: 500px;
+}
+
+.actions {
+  padding-bottom: 30px;
+}
+
+
+
+.glyphicon {
+  color: #0d87e9;
+  font-size: 11px;
+}
+
+/*-----------------
+	Setting up columns to be clicked on and sorted.
+------------------*/
+
+th {
+  cursor: pointer;
+  font-size: 16.5px;
+}
+
+/*-----------------
+	Setting up table to be responsive.
+------------------*/
+
+@media (max-width: 750px) {
+  .table>tbody>tr>td {
+    border-top: 0px solid #fff;
+    font-size: 14px;
+  }
+  
+  td {
+    display: block
+  }
+  th {
+    display:none;
+  }
+  td:first-child, th:first-child {
+    margin-left:0px;
+  }
+  td:before {
+    display: inline-block;
+    width:160px;
+  }
+  .row td:last-child {
+    margin-bottom:50px;
+  }
+  td, th{
+    min-width:0px;
+  }
+  tr {
+    border-top: 2px solid #2a95eb;
+    
+  }
+  .borderless td, .borderless th {
+    border: none;
+}
+}

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Vue.js 2 CRUD application</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+  <html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>School Application</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+</head>
+<body>
+
+<div class="container">
+  <header class="page-header">
+    <div class="branding">
+      <h3>School Application</h3>
+    </div>
+  </header>
+  <main id="app">
+    <router-view></router-view>
+  </main>
+</div>
+
+<template id="product-list">
+  <div>
+    <div class="actions">
+      
+      <router-link class="btn btn-default" v-bind:to="{path: '/add-product'}">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add school
+      </router-link>
+    </div>
+    <div class="filters row">
+      <div class="form-group col-sm-6">
+        
+        <input v-model="searchKey" placeholder="Search School Name..."  class="form-control" id="search-element" requred/>
+      </div>
+    </div>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th v-on:click="sortByColumn('name')">Name <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></th>
+        <th v-on:click="sortByColumn('county')">County <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></th>
+        <th v-on:click="sortByColumn('students')">Students <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></th>
+        <th v-on:click="sortByColumn('grades')">Grades <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></th>
+        <th>Actions <span class="glyphicon glyphicon-cog" aria-hidden="true"></span></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="product in filteredProducts">
+        <td>
+          <router-link v-bind:to="{name: 'product', params: {product_id: product.id}}">{{ product.name }}</router-link>
+        </td>
+        <td>{{ product.county}}</td>
+        <td>
+          {{ product.students }}
+        </td>
+        <td>
+          {{ product.grades }}
+        </td>
+        <td>
+          
+          <router-link class="btn btn-warning" v-bind:to="{name: 'product-edit', params: {product_id: product.id}}">Edit</router-link>
+          <router-link class="btn btn-danger " v-bind:to="{name: 'product-delete', params: {product_id: product.id}}">Delete</router-link>
+          
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<template id="add-product">
+  <div>
+    <h4>Add new school</h4>
+    <form v-on:submit="createProduct">
+      <div class="form-group">
+        <label for="add-name">Name</label>
+        <input class="form-control" id="add-name" v-model="product.name" required/>
+      </div>
+      <div class="form-group">
+        <label for="add-county">County</label>
+        <input class="form-control" id="add-county" v-model="product.county"/>
+      </div>
+      <div class="form-group">
+        <label for="add-students">Students</label>
+        <input class="form-control" id="add-students" v-model="product.students"/>
+      </div>
+      <div class="form-group">
+        <label for="add-grades">Grades</label>
+        <input class="form-control" id="add-grades" v-model="product.grades"/>
+      </div>
+      <button type="submit" class="btn btn-primary">Create</button>
+      <router-link class="btn btn-default" v-bind:to="'/'">Cancel</router-link>
+    </form>
+  </div>
+</template>
+
+<template id="product">
+  <div>
+    <h3>{{ product.name }}</h3>
+    <b>County: </b>
+    <div>{{ product.county }}</div>
+    <b>Students:</b>
+    <div>{{ product.students }}</div>
+    <b>Grades:</b>
+    <div>{{ product.grades }}</div>
+    <br/>
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+    <router-link v-bind:to="'/'">Back to full list</router-link>
+  </div>
+</template>
+
+<template id="product-edit">
+  <div>
+    <h4>Edit entry</h4>
+    <form v-on:submit="updateProduct">
+      <div class="form-group">
+        <label for="edit-name">Name</label>
+        <input class="form-control" id="edit-name" v-model="product.name" required/>
+      </div>
+      <div class="form-group">
+        <label for="edit-county">County</label>
+        <input class="form-control" id="edit-county" v-model="product.county"/>
+      </div>
+      <div class="form-group">
+        <label for="edit-students">Students</label>
+        <input class="form-control" id="edit-students" v-model="product.students"/>
+      </div>
+       <div class="form-group">
+        <label for="edit-grades">Grades</label>
+        <input class="form-control" id="edit-grades" v-model="product.grades"/>
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <router-link class="btn btn-default" v-bind:to="'/'">Cancel</router-link>
+    </form>
+  </div>
+</template>
+
+<template id="product-delete">
+  <div>
+    <h4>Delete entry {{ product.name }}</h4>
+    <form v-on:submit="deleteProduct">
+      <p>The action cannot be undone.</p>
+      <button type="submit" class="btn btn-danger">Delete</button>
+      <router-link class="btn btn-default" v-bind:to="'/'">Cancel</router-link>
+    </form>
+  </div>
+</template>
+
+</body>
+</html>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.2.1/vue-router.js'></script>
+
+    <script src="js/index.js"></script>
+
+</body>
+</html>
